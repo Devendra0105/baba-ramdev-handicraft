@@ -16,7 +16,7 @@ export function Logo() {
     <Link to="/" className="group flex items-center gap-2.5" aria-label="FORGE & LEGACY home">
       <Emblem className="h-8 w-8 text-primary transition-transform duration-500 group-hover:rotate-6" />
       <span className="whitespace-nowrap font-serif text-base font-semibold tracking-[0.14em] text-foreground sm:text-xl md:text-2xl md:tracking-[0.18em]">
-        FORGE <span className="text-primary">&amp;</span> LEGACY
+        BABA RAMDEV HANDICRAFTS
       </span>
     </Link>
   );
