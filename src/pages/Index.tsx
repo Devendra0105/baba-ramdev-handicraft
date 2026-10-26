@@ -40,7 +40,7 @@ export default function Index() {
         <div className="container-wide relative py-24">
           <div className="max-w-2xl animate-fade-in-up">
             <p className="eyebrow">The Art of the Blade</p>
-            <h1 className="heading-xl mt-6">Legends Forged in <em className="text-primary">Steel.</em></h1>
+            <h1 className="heading-xl mt-6">Baba Ramdev{"\u00a0"}<em className="text-primary">Handicrafts</em></h1>
             <p className="mt-8 max-w-lg text-lg text-foreground/80">Explore a curated collection of decorative swords, historical replicas, and timeless pieces inspired by centuries of craftsmanship.</p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Button asChild size="lg" className="h-12 px-8"><Link to="/shop">Explore Collection</Link></Button>
@@ -112,7 +112,7 @@ export default function Index() {
           <div>
             <p className="eyebrow">About the Brand</p>
             <h2 className="heading-lg mt-4">More Than a Display Piece</h2>
-            <p className="mt-6 text-lg leading-relaxed text-muted-foreground">FORGE &amp; LEGACY celebrates historical design, traditional artistry, and the stories behind collectible swords. Our collection brings together pieces inspired by different eras and cultures for enthusiasts, historians, and collectors.</p>
+            <p className="mt-6 text-lg leading-relaxed text-muted-foreground">BABA RAMDEV HANDICRAFTS celebrates historical design, traditional artistry, Sirohi's famous swords and the stories behind collectible swords. Our collection brings together pieces inspired by different eras and cultures for enthusiasts, historians, and collectors.</p>
             <Button asChild size="lg" className="mt-10 h-12 px-8"><Link to="/about">Our Story</Link></Button>
           </div>
         </div>

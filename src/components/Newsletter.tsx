@@ -19,7 +19,7 @@ export function Newsletter() {
     <section className="section border-t border-border bg-card">
       <div className="container-wide max-w-2xl text-center">
         <p className="eyebrow">Newsletter</p>
-        <h2 className="heading-lg mt-4">Letters from the Forge</h2>
+        <h2 className="heading-lg mt-4">Connect with Us{"\u00a0"}</h2>
         <p className="mt-4 text-muted-foreground">Receive collection updates, historical stories, and occasional announcements.</p>
         {done ? (
           <p role="status" className="mt-8 border border-primary/40 p-4 text-sm text-primary">
@@ -33,7 +33,7 @@ export function Newsletter() {
               <Button type="submit" className="h-12 px-8">Subscribe</Button>
             </div>
             <p id="nl-err" role="alert" className="mt-2 min-h-5 text-left text-sm text-destructive">{error}</p>
-            <p className="text-xs text-muted-foreground">Demo submission — no emails are collected.</p>
+            <p className="text-xs text-muted-foreground">{"\n"}</p>
           </form>
         )}
       </div>
