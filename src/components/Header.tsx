@@ -1,243 +1,106 @@
-import { Link } from "react-router-dom";
-import { Heart, Menu, X } from "lucide-react";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useWishlist } from "@/hooks/useWishlist";
-import { CartIcon } from "@/components/CartIcon";
-import { collections } from "@/data/products";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { useState, type FormEvent } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
+import { Logo } from "@/components/Logo";
+import { useStore } from "@/context/StoreContext";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-export const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const { items } = useWishlist();
+export const navLinks = [
+  { to: "/", label: "Home" },
+  { to: "/shop", label: "Shop" },
+  { to: "/collections", label: "Collections" },
+  { to: "/craft", label: "Our Craft" },
+  { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
+];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+export function AnnouncementBar() {
+  return (
+    <div className="border-b border-primary/30 bg-secondary py-2 text-center text-[11px] font-medium uppercase tracking-[0.25em] text-primary">
+      Discover Historical Craftsmanship <span className="mx-2 text-muted-foreground">|</span> Collectible Blades &amp; Decorative Swords
+    </div>
+  );
+}
+
+export function Header() {
+  const { cartCount, wishlist, setCartOpen } = useStore();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [q, setQ] = useState("");
+  const navigate = useNavigate();
+
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    setSearchOpen(false);
+    navigate(`/shop?q=${encodeURIComponent(q.trim())}`);
+  };
+
+  const iconBtn = "relative flex h-10 w-10 items-center justify-center text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 transition-all duration-500",
-        scrolled
-          ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
-          : "bg-background/80 backdrop-blur-sm border-b border-transparent"
-      )}
-    >
-      <nav className="container-full">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link
-            to="/"
-            className="font-serif text-2xl md:text-3xl tracking-tight text-foreground hover:text-primary transition-colors duration-300"
-          >
-            Maison
+    <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
+      <div className="container-wide flex items-center justify-between gap-4 py-4">
+        <Logo />
+        <nav aria-label="Main" className="hidden lg:block">
+          <ul className="flex items-center gap-8">
+            {navLinks.map((l) => (
+              <li key={l.to}>
+                <NavLink
+                  to={l.to}
+                  end={l.to === "/"}
+                  className={({ isActive }) =>
+                    cn("text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:text-primary", isActive ? "text-primary" : "text-foreground/80")
+                  }
+                >
+                  {l.label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="flex items-center">
+          <button className={iconBtn} aria-label="Search products" onClick={() => setSearchOpen(true)}><Search className="h-5 w-5" /></button>
+          <Link to="/wishlist" className={iconBtn} aria-label={`Wishlist, ${wishlist.length} items`}>
+            <Heart className="h-5 w-5" />
+            {wishlist.length > 0 && <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-primary" />}
           </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-transparent text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground hover:text-foreground">
-                    Collections
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-1 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                      {collections.map((collection) => (
-                        <li key={collection.id}>
-                          <NavigationMenuLink asChild>
-                            <Link
-                              to={`/products?collection=${collection.slug}`}
-                              className={cn(
-                                "block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                              )}
-                            >
-                              <div className="text-sm font-medium leading-none">
-                                {collection.name}
-                              </div>
-                              <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                                {collection.description}
-                              </p>
-                            </Link>
-                          </NavigationMenuLink>
-                        </li>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-
-            <Link
-              to="/products"
-              className="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground hover:text-foreground transition-colors duration-300 link-underline"
-            >
-              Shop All
-            </Link>
-
-            <Link
-              to="/about"
-              className="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground hover:text-foreground transition-colors duration-300 link-underline"
-            >
-              About
-            </Link>
-          </div>
-
-          {/* Right side actions */}
-          <div className="flex items-center gap-2">
-            {/* Wishlist Icon with Tooltip */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button className="relative p-2 hover:bg-accent transition-colors duration-300 group">
-                  <Heart className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
-                  <AnimatePresence>
-                    {items.length > 0 && (
-                      <motion.span
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-semibold rounded-full flex items-center justify-center"
-                      >
-                        {items.length > 9 ? "9+" : items.length}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="max-w-xs">
-                {items.length === 0 ? (
-                  <p className="text-sm">Your wishlist is empty</p>
-                ) : (
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium">{items.length} saved {items.length === 1 ? 'item' : 'items'}</p>
-                    <div className="space-y-1">
-                      {items.slice(0, 3).map((item) => (
-                        <p key={item.id} className="text-xs text-muted-foreground truncate">
-                          {item.name}
-                        </p>
-                      ))}
-                      {items.length > 3 && (
-                        <p className="text-xs text-muted-foreground">+{items.length - 3} more</p>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </TooltipContent>
-            </Tooltip>
-
-            {/* Cart Icon */}
-            <CartIcon />
-
-            {/* Mobile menu button */}
-            <button
-              className="md:hidden p-2 hover:bg-accent transition-colors duration-300"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              <AnimatePresence mode="wait">
-                {mobileMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <X className="w-5 h-5" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Menu className="w-5 h-5" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </button>
-          </div>
+          <button className={iconBtn} aria-label={`Cart, ${cartCount} items`} onClick={() => setCartOpen(true)}>
+            <ShoppingBag className="h-5 w-5" />
+            <span className="absolute -right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">{cartCount}</span>
+          </button>
+          <button className={cn(iconBtn, "lg:hidden")} aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen((o) => !o)}>
+            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
+      </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as const }}
-              className="md:hidden border-t border-border overflow-hidden"
-            >
-              <div className="py-8 space-y-6">
-                <div className="space-y-1">
-                  <p className="text-[10px] font-semibold tracking-[0.3em] uppercase text-muted-foreground/50 px-2 mb-3">
-                    Collections
-                  </p>
-                  {collections.slice(0, 6).map((collection, i) => (
-                    <motion.div
-                      key={collection.id}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.05 }}
-                    >
-                      <Link
-                        to={`/products?collection=${collection.slug}`}
-                        className="block px-2 py-2.5 text-sm hover:bg-accent transition-colors duration-300"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {collection.name}
-                      </Link>
-                    </motion.div>
-                  ))}
-                </div>
-                <div className="pt-6 border-t border-border space-y-1">
-                  {[
-                    { to: "/products", label: "Shop All" },
-                    { to: "/about", label: "About" },
-                    { to: "/cart", label: "Shopping Bag" },
-                  ].map((link, i) => (
-                    <motion.div
-                      key={link.to}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 + i * 0.05 }}
-                    >
-                      <Link
-                        to={link.to}
-                        className="block px-2 py-2.5 text-sm font-medium hover:bg-accent transition-colors duration-300"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {link.label}
-                      </Link>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
+      {menuOpen && (
+        <nav aria-label="Mobile" className="border-t border-border bg-background lg:hidden">
+          <ul className="container-wide py-4">
+            {navLinks.map((l) => (
+              <li key={l.to}>
+                <NavLink to={l.to} end={l.to === "/"} onClick={() => setMenuOpen(false)}
+                  className={({ isActive }) => cn("block py-3 font-serif text-xl", isActive ? "text-primary" : "text-foreground")}>
+                  {l.label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+
+      <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
+        <DialogContent className="border-border bg-background">
+          <DialogTitle className="font-serif text-2xl">Search the collection</DialogTitle>
+          <DialogDescription>Search by product name or category.</DialogDescription>
+          <form onSubmit={submit} className="flex gap-2">
+            <Input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="e.g. katana, medieval…" aria-label="Search query" />
+            <button type="submit" className="bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90">Search</button>
+          </form>
+        </DialogContent>
+      </Dialog>
     </header>
   );
-};
+}
