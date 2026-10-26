@@ -41,7 +41,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
-      <div className="container-wide flex h-18 items-center justify-between gap-4 py-4">
+      <div className="container-wide flex items-center justify-between gap-4 py-4">
         <Logo />
         <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-8">
