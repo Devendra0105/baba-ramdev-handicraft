@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { ShopCategory, ShopImage, ShopProduct } from "@/lib/catalog";
+import type { ShopCategory, ShopImage, ShopProduct } from "@/lib/shop";
 
 export const BUCKET = "product-images";
 
