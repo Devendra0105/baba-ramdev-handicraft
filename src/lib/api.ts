@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { ShopCategory, ShopImage, ShopProduct } from "@/lib/shop";
+import { products as localProducts, collections as localCollections } from "@/data/products";
 
 export const BUCKET = "product-images";
 
@@ -43,14 +44,47 @@ export async function mapProducts(rows: any[]): Promise<ShopProduct[]> {
   return rows.map((r) => mapProduct(r, urls));
 }
 
-/** Public catalog. RLS returns only published products to visitors. */
-export async function fetchProducts(opts: { publishedOnly?: boolean } = { publishedOnly: true }) {
-  let q = supabase.from("products").select(PRODUCT_SELECT).order("created_at", { ascending: false });
-  if (opts.publishedOnly) q = q.eq("status", "published");
-  const { data, error } = await q;
-  if (error) throw error;
-  return mapProducts(data ?? []);
+function getLocalShopProducts(): ShopProduct[] {
+  return localProducts.map((p) => {
+    const col = localCollections.find((c) => c.id === p.category);
+    return {
+      id: p.id,
+      slug: p.slug,
+      name: p.name,
+      price: p.price,
+      stock: 5,
+      lowStockThreshold: 1,
+      description: p.description,
+      details: p.details,
+      materials: "Handcrafted Brass, Carbon Steel, Velvet",
+      dimensions: "Traditional Rajput Specifications",
+      care: "Wipe with dry soft cloth. Keep oiled.",
+      specs: p.specs || [],
+      status: "published",
+      eligible: true,
+      featured: !!p.featured,
+      createdAt: new Date().toISOString(),
+      category: col ? { id: col.id, slug: col.id, name: col.name } : null,
+      images: [{ id: p.id + "-img", path: p.image, src: p.image, alt: p.name }],
+    };
+  });
 }
+
+/** Public catalog. Returns database products, or your local products if database is empty. */
+export async function fetchProducts(opts: { publishedOnly?: boolean } = { publishedOnly: true }) {
+  try {
+    let q = supabase.from("products").select(PRODUCT_SELECT).order("created_at", { ascending: false });
+    if (opts.publishedOnly) q = q.eq("status", "published");
+    const { data, error } = await q;
+    if (error || !data || data.length === 0) {
+      return getLocalShopProducts();
+    }
+    return mapProducts(data);
+  } catch {
+    return getLocalShopProducts();
+  }
+}
+
 
 export function useProducts() {
   return useQuery({ queryKey: ["products", "public"], queryFn: () => fetchProducts({ publishedOnly: true }), staleTime: 60_000 });
@@ -61,21 +95,33 @@ export function useProduct(slug: string | undefined) {
     queryKey: ["product", slug],
     enabled: !!slug,
     queryFn: async () => {
-      const { data, error } = await supabase.from("products").select(PRODUCT_SELECT).eq("slug", slug!).eq("status", "published").maybeSingle();
-      if (error) throw error;
-      if (!data) return null;
-      return (await mapProducts([data]))[0];
+      try {
+        const { data } = await supabase.from("products").select(PRODUCT_SELECT).eq("slug", slug!).eq("status", "published").maybeSingle();
+        if (data) return (await mapProducts([data]))[0];
+      } catch {}
+      const fallback = getLocalShopProducts().find((p) => p.slug === slug);
+      return fallback ?? null;
     },
   });
 }
+
 
 export function useCategories() {
   return useQuery({
     queryKey: ["categories", "public"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("*").eq("is_active", true).order("sort_order");
-      if (error) throw error;
-      return (data ?? []) as ShopCategory[];
+      try {
+        const { data, error } = await supabase.from("categories").select("*").eq("is_active", true).order("sort_order");
+        if (!error && data && data.length > 0) return data as ShopCategory[];
+      } catch {}
+      return localCollections.map((c, i) => ({
+        id: c.id,
+        slug: c.id,
+        name: c.name,
+        description: c.description,
+        image_url: c.image,
+        sort_order: i,
+      }));
     },
     staleTime: 60_000,
   });

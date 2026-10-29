@@ -5,10 +5,19 @@ import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 import { useCategories, useProducts, useSettings } from "@/lib/api";
 import { sortProducts, whatsappLink } from "@/lib/shop";
-import hero from "@/assets/shop-0.webp.asset.json";
-import craft from "@/assets/shop-4.webp.asset.json";
-import story from "@/assets/shop-8.webp.asset.json";
-
+import hero from "@/assets/hero.jpg";
+import craft from "@/assets/craft.jpg";
+import story from "@/assets/p-knight.jpg";
+import dhal from "@/assets/about.jpg";
+import cork from "@/assets/cork.jpg";
+import golden from "@/assets/golden_dhal.jpg";
+import muth from "@/assets/muth.jpg";
+import proyal from "@/assets/proyal.jpg";
+import blue from "@/assets/pack_blue.jpg";
+import silver from "@/assets/silver_sword.jpg";
+import suryavanshi from "@/assets/suryavanshi_dhal.jpg";
+import swordmuth from "@/assets/sword_muth.jpg";
+import unique from "@/assets/uniique.jpg";
 function SectionHead({ eyebrow, title, text }: { eyebrow?: string; title: string; text?: string }) {
   return (
     <div className="mb-10 text-center md:mb-14">
@@ -30,20 +39,37 @@ export default function Index() {
 
   return (
     <Layout>
-      <section className="band-forest">
-        <div className="container-wide grid items-center gap-10 py-14 md:grid-cols-2 md:py-20">
-          <div>
-            <p className="eyebrow text-brass">Sirohi, Rajasthan</p>
-            <h1 className="heading-xl mt-5">Baba Ramdev<br /><em className="text-brass">Handicrafts</em></h1>
-            <p className="mt-6 max-w-lg text-lg opacity-85">Decorative talwars, swords, wall displays and handicrafts. Browse the collection and send us an inquiry — we will get back to you to confirm.</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="h-12 bg-brass px-8 text-walnut hover:bg-brass/90"><Link to="/shop">Explore Collection</Link></Button>
-              <Button asChild size="lg" variant="outline" className="h-12 border-current/40 bg-transparent px-8 hover:bg-forest-foreground/10"><Link to="/collections">Browse Handicrafts</Link></Button>
+            {/* Full-bleed Sword Background Hero */}
+      <section className="relative flex min-h-[82vh] items-center overflow-hidden bg-background">
+        <img
+          src={"src/assets/hero.jpg"}
+          alt="Handcrafted swords and talwars from Sirohi"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+        {/* Dark radial gradient overlay for high text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/20" />
+
+        <div className="container-wide relative py-20 md:py-28">
+          <div className="max-w-2xl">
+            <p className="eyebrow text-accent">Sirohi, Rajasthan</p>
+            <h1 className="heading-xl mt-5">
+              Baba Ramdev <em className="text-accent">Handicrafts</em>
+            </h1>
+            <p className="mt-6 max-w-lg text-lg text-foreground/85">
+              Decorative talwars, swords, wall displays and traditional royal handicrafts. Browse our curated pieces and send an inquiry directly.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Button asChild size="lg" className="h-12 px-8">
+                <Link to="/shop">Explore Collection</Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="h-12 border-foreground/30 bg-background/40 backdrop-blur-sm px-8">
+                <Link to="/collections">Browse Handicrafts</Link>
+              </Button>
             </div>
           </div>
-          <img src={hero.url} alt="Talwars displayed on red velvet" className="arch aspect-[4/5] w-full max-w-md justify-self-center border-4 border-brass/40 object-cover" />
         </div>
       </section>
+
 
       {cats.length > 0 && (
         <section className="section">
@@ -77,7 +103,7 @@ export default function Index() {
 
       <section className="section">
         <div className="container-wide grid items-center gap-12 md:grid-cols-2">
-          <img src={craft.url} alt="Handcrafted pieces from the workshop" loading="lazy" className="aspect-[4/5] w-full border border-border object-cover shadow-elegant" />
+          <img src={craft} alt="Handcrafted pieces from the workshop" loading="lazy" className="aspect-[4/5] w-full border border-border object-cover shadow-elegant" />
           <div>
             <p className="eyebrow">Craftsmanship</p>
             <h2 className="heading-lg mt-3">Made by hand</h2>
@@ -94,7 +120,7 @@ export default function Index() {
 
       <section className="section jaali border-t border-border bg-secondary/40">
         <div className="container-wide grid items-center gap-12 md:grid-cols-2">
-          <div className="md:order-2"><img src={story.url} alt="Pieces from the shop" loading="lazy" className="arch aspect-[4/5] w-full max-w-md object-cover" /></div>
+          <div className="md:order-2"><img src={story} alt="Pieces from the shop" loading="lazy" className="arch aspect-[4/5] w-full max-w-md object-cover" /></div>
           <div>
             <p className="eyebrow">Our Story</p>
             <h2 className="heading-lg mt-3">From Sirohi</h2>
