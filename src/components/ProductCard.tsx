@@ -18,7 +18,9 @@ export function ProductCard({ product: p }: { product: ShopProduct }) {
   const url = `/product/${p.slug}`;
   const a = availability(p);
   return (
-    <article className="group flex h-full flex-col border border-border bg-card transition-shadow hover:shadow-elegant">
+
+  <article className="group card-blend flex h-full flex-col rounded-lg bg-card transition-shadow hover:shadow-elegant">
+
       <Link to={url} tabIndex={-1} aria-hidden="true" className="block aspect-square overflow-hidden bg-muted">
         {p.images[0] && <SafeImage src={p.images[0].src} alt={p.images[0].alt} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />}
       </Link>

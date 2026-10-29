@@ -6,84 +6,217 @@
 
 /* Baba Ramdev Handicrafts — heritage boutique tokens (HSL) */
 @layer base {
-  :root {
-    /* warm ivory page, dark walnut text */
-    --background: 40 38% 95%;
-    --foreground: 24 30% 14%;
+    :root {
+    /* Chalky Haveli Linen background (#F4EFE7) with Matte Basalt text (#201D1B) */
+    --background: 37 36% 93%;
+    --foreground: 24 8% 12%;
 
-    --card: 40 45% 98%;
-    --card-foreground: 24 30% 14%;
-    --popover: 40 45% 98%;
-    --popover-foreground: 24 30% 14%;
+    /* Elevated Matte Cards & Dropdowns */
+    --card: 37 30% 97%;
+    --card-foreground: 24 8% 12%;
+    --popover: 37 30% 97%;
+    --popover-foreground: 24 8% 12%;
 
-    /* deep forest green */
-    --primary: 152 38% 20%;
-    --primary-foreground: 40 45% 95%;
+    /* Aged Crimson Velvet (#7A2529) — Primary Buttons & Highlights */
+    --primary: 357 53% 31%;
+    --primary-foreground: 37 36% 95%;
 
-    /* sandstone */
-    --secondary: 34 38% 86%;
-    --secondary-foreground: 24 30% 14%;
+    /* Aged Leather & Walnut (#382E29) — Secondary surfaces & badges */
+    --secondary: 20 15% 19%;
+    --secondary-foreground: 37 36% 95%;
 
-    --muted: 36 30% 90%;
-    --muted-foreground: 26 14% 36%;
+    /* Soft matte linen for inactive states */
+    --muted: 37 20% 88%;
+    --muted-foreground: 24 10% 42%;
 
-    /* antique brass */
-    --accent: 38 52% 40%;
-    --accent-foreground: 40 45% 97%;
+    /* Brushed Antique Brass (#C4A265) — Sword crests, accents, gold borders */
+    --accent: 39 45% 58%;
+    --accent-foreground: 24 8% 12%;
 
-    --destructive: 2 62% 40%;
-    --destructive-foreground: 40 45% 97%;
+    --destructive: 357 65% 38%;
+    --destructive-foreground: 37 36% 95%;
 
-    --success: 152 45% 28%;
-    --warning: 32 80% 34%;
+    --success: 145 35% 32%;
+    --warning: 35 70% 40%;
 
-    --border: 34 24% 78%;
-    --input: 34 24% 74%;
-    --ring: 152 38% 26%;
+    /* Matte stone borders & form inputs */
+    --border: 37 16% 80%;
+    --input: 37 16% 76%;
+    --ring: 39 45% 58%;
 
-    --radius: 0.25rem;
+    /* Subtle, smooth curve everywhere (8px) */
+    --radius: 0.5rem;
 
-    /* dark forest band */
-    --forest: 152 40% 13%;
-    --forest-foreground: 40 40% 92%;
-    --brass: 38 55% 58%;
-    --walnut: 24 30% 14%;
-    --sandstone: 34 38% 86%;
+    /* Matte Basalt Dark Armory band (Hero & Footers) */
+    --forest: 24 8% 12%;
+    --forest-foreground: 37 36% 93%;
+    --brass: 39 45% 58%;
+    --walnut: 20 15% 19%;
+    --sandstone: 37 25% 86%;
 
-    --shadow-elegant: 0 18px 40px -22px hsl(24 30% 14% / 0.45);
+    /* Soft, non-glossy matte shadow */
+    --shadow-elegant: 0 12px 32px -16px hsl(24 8% 12% / 0.25);
 
     --font-serif: 'Cormorant Garamond', Georgia, serif;
     --font-sans: 'Manrope', system-ui, sans-serif;
 
-    --sidebar-background: 40 45% 98%;
-    --sidebar-foreground: 24 30% 14%;
-    --sidebar-primary: 152 38% 20%;
-    --sidebar-primary-foreground: 40 45% 95%;
-    --sidebar-accent: 34 38% 90%;
-    --sidebar-accent-foreground: 24 30% 14%;
-    --sidebar-border: 34 24% 80%;
-    --sidebar-ring: 152 38% 26%;
+    --sidebar-background: 37 30% 97%;
+    --sidebar-foreground: 24 8% 12%;
+    --sidebar-primary: 357 53% 31%;
+    --sidebar-primary-foreground: 37 36% 95%;
+    --sidebar-accent: 37 20% 88%;
+    --sidebar-accent-foreground: 24 8% 12%;
+    --sidebar-border: 37 16% 80%;
+    --sidebar-ring: 39 45% 58%;
   }
 }
-
 @layer base {
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
   body { @apply bg-background text-foreground font-sans antialiased text-[15px] md:text-base; }
   h1, h2, h3, h4 { @apply font-serif tracking-tight; }
+
+  /* 1. Subtle smooth curves everywhere site-wide */
+  article, .bg-card, [role="article"] {
+    border-radius: 0.625rem; /* 10px smooth curve on all cards */
+    overflow: hidden;
+  }
+  img {
+    border-radius: 0.5rem; /* 8px smooth curve on photos */
+  }
+  button, input, select, textarea {
+    border-radius: 0.5rem !important; /* Smooth curved buttons and inputs */
+  }
 }
 
 @layer components {
   .container-wide { @apply mx-auto w-full max-w-7xl px-5 md:px-8; }
   .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.25em] text-accent; }
-  .section { @apply py-16 md:py-24; }
+  
+  /* 2. Soft, blended sections site-wide */
+  .section { 
+    @apply py-16 md:py-24 relative; 
+  }
+  /* ========================================================
+     UNIVERSAL SOFT EDGE BLEND FOR ALL COLOR-CHANGING SECTIONS
+     ======================================================== */
+
+  /* 1. Downward soft ambient shadow on all colored headers & banners */
+  header,
+  .band-forest,
+  section.jaali,
+  [class*="bg-secondary"] {
+    position: relative;
+    z-index: 10;
+    border-bottom: none !important;
+    box-shadow: 
+      0 14px 28px -6px hsl(var(--foreground) / 0.22),
+      0 6px 12px -3px hsl(var(--foreground) / 0.14);
+  }
+
+  /* 2. Soft diffused gradient feathering layer underneath the edge */
+  .band-forest::after,
+  section.jaali::after,
+  [class*="bg-secondary"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -20px;
+    height: 20px;
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--foreground) / 0.15),
+      hsl(var(--foreground) / 0.05) 50%,
+      transparent
+    );
+    pointer-events: none;
+    z-index: 11;
+  }
+
+  /* 3. Upward soft blend when transitioning into darker sections/footer */
+  section.border-t,
+  footer.band-forest {
+    border-top: none !important;
+    position: relative;
+    box-shadow: 
+      0 -14px 28px -8px hsl(var(--foreground) / 0.18),
+      inset 0 12px 20px -8px hsl(var(--foreground) / 0.10);
+  }
+
+  /* Automatically dissolves harsh border lines into a smooth color blend */
+  .border-t, .border-b {
+    border-color: transparent !important;
+    position: relative;
+  }
+  .border-t::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3rem; /* 48px blend zone */
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--foreground) / 0.08) 0%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  /* 3. Dark banners (Hero, Question section, Footer) melt smoothly into surrounding sections */
+  .band-forest { 
+    background-color: hsl(var(--forest)); 
+    color: hsl(var(--forest-foreground));
+    position: relative;
+  }
+  .band-forest::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--background)) 0%,
+      transparent 100%
+    );
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  .band-forest::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    background: linear-gradient(
+      to top,
+      hsl(var(--background)) 0%,
+      transparent 100%
+    );
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  /* 4. Soft ambient card borders that dissolve into the surface */
+  article.group, .bg-card {
+    border: 1px solid hsl(var(--border) / 0.6) !important;
+    box-shadow: 0 4px 20px -6px hsl(var(--foreground) / 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  article.group:hover, .bg-card:hover {
+    box-shadow: 0 12px 30px -8px hsl(var(--accent) / 0.2);
+    transform: translateY(-2px);
+  }
+
   .heading-xl { @apply font-serif text-[2.6rem] font-semibold leading-[1.05] sm:text-6xl lg:text-7xl; }
   .heading-lg { @apply font-serif text-3xl font-semibold leading-tight md:text-5xl; }
   .shadow-elegant { box-shadow: var(--shadow-elegant); }
-  .band-forest { background-color: hsl(var(--forest)); color: hsl(var(--forest-foreground)); }
-  /* jharokha-style arched frame */
-  .arch { border-radius: 999px 999px 0.25rem 0.25rem / 38% 38% 0.25rem 0.25rem; }
-  /* faint jaali lattice */
+  .arch { border-radius: 999px 999px 0.5rem 0.5rem / 38% 38% 0.5rem 0.5rem; }
+  
   .jaali {
     background-image:
       radial-gradient(circle at 50% 50%, transparent 9px, hsl(var(--accent) / 0.10) 10px, transparent 11px),
@@ -91,3 +224,57 @@
     background-size: 28px 28px;
   }
 }
+
+@layer utilities {
+  /* Smooth blend from Dark Armory section into Light Linen section */
+  .blend-dark-to-light {
+    position: relative;
+  }
+  .blend-dark-to-light::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 3.5rem; /* ~56px blend zone */
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      hsl(28 14% 30% / 0.4) 45%, /* Soft intermediate mixture tone */
+      hsl(var(--background)) 100%
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Smooth blend from Light Linen into Dark Armory section */
+  .blend-light-to-dark {
+    position: relative;
+  }
+  .blend-light-to-dark::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      hsl(28 14% 30% / 0.4) 45%,
+      hsl(var(--forest)) 100%
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Soft ambient card border that dissolves into the background */
+  .card-blend {
+    border: 1px solid transparent;
+    background-image: linear-gradient(hsl(var(--card)), hsl(var(--card))), 
+                      linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(var(--primary) / 0.25), transparent);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+}
+

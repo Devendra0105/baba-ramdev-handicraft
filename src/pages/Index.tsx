@@ -40,7 +40,9 @@ export default function Index() {
   return (
     <Layout>
             {/* Full-bleed Sword Background Hero */}
-      <section className="relative flex min-h-[82vh] items-center overflow-hidden bg-background">
+
+    <section className="blend-dark-to-light relative flex min-h-[82vh] items-center overflow-hidden bg-background">
+
         <img
           src={"src/assets/hero.jpg"}
           alt="Handcrafted swords and talwars from Sirohi"
@@ -130,7 +132,9 @@ export default function Index() {
         </div>
       </section>
 
-      <section className="band-forest py-16 text-center">
+    
+     <section className="band-forest blend-dark-to-light py-16 text-center">
+
         <div className="container-wide">
           <h2 className="heading-lg">Have a question?</h2>
           <p className="mx-auto mt-4 max-w-lg opacity-85">Ask about a piece, a custom requirement or bulk orders.</p>
