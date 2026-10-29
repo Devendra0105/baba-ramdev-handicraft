@@ -1,46 +1,29 @@
-import { useState, type FormEvent } from "react";
-import { Layout, PageHeader } from "@/components/Layout";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Layout, PageHeader, StateBox } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { siteConfig } from "@/data/site";
-import { isValidEmail } from "@/lib/catalog";
+import { useSettings } from "@/lib/api";
+import { whatsappLink } from "@/lib/shop";
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [error, setError] = useState("");
-  const [sent, setSent] = useState(false);
-
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    if (!form.name.trim() || !form.message.trim()) return setError("Please fill in your name and message.");
-    if (!isValidEmail(form.email)) return setError("Please enter a valid email address.");
-    setError("");
-    setSent(true);
-  };
-
+  const { data: s, isLoading } = useSettings();
+  const wa = whatsappLink(s?.whatsapp, "Hello, I have a question.");
+  const rows = [
+    { Icon: Phone, label: "Phone", value: s?.phone, href: s?.phone ? `tel:${s.phone}` : undefined },
+    { Icon: Mail, label: "Email", value: s?.email, href: s?.email ? `mailto:${s.email}` : undefined },
+    { Icon: MapPin, label: "Address", value: s?.address },
+  ].filter((r) => r.value);
   return (
     <Layout title="Contact">
-      <PageHeader eyebrow="Contact" title="Speak With Us" text="Questions about a piece? We'd be glad to hear from you." />
-      <section className="section container-wide grid gap-12 md:grid-cols-[1fr_1.4fr]">
-        <div className="space-y-4 text-muted-foreground">
-          <h2 className="font-serif text-2xl text-foreground">Details</h2>
-          <p>Email: {siteConfig.email}</p>
-          <p>Phone: {siteConfig.phone}</p>
-          <p>Address: {siteConfig.address}</p>
-        </div>
-        {sent ? (
-          <p role="status" className="border border-primary/40 p-6 text-primary">Thank you, {form.name}. <strong>Demo mode:</strong> this form is not connected yet, so your message was not sent.</p>
-        ) : (
-          <form onSubmit={submit} noValidate className="space-y-5">
-            <div className="space-y-2"><Label htmlFor="c-name">Name</Label><Input id="c-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></div>
-            <div className="space-y-2"><Label htmlFor="c-email">Email</Label><Input id="c-email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></div>
-            <div className="space-y-2"><Label htmlFor="c-msg">Message</Label><Textarea id="c-msg" rows={6} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} /></div>
-            {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
-            <Button type="submit" size="lg">Send Message</Button>
-            <p className="text-xs text-muted-foreground">Demo form — messages are not sent or stored.</p>
-          </form>
+      <PageHeader eyebrow="Get in touch" title="Contact Us" text="The quickest way to reach us is WhatsApp." />
+      <section className="container-wide max-w-2xl py-12">
+        {isLoading ? <StateBox title="Loading…" /> : (
+          <div className="space-y-6 border border-border bg-card p-8">
+            {wa && <Button asChild size="lg" className="w-full"><a href={wa} target="_blank" rel="noreferrer"><MessageCircle className="mr-2 h-5 w-5" />Message us on WhatsApp</a></Button>}
+            {rows.map(({ Icon, label, value, href }) => (
+              <div key={label} className="flex gap-4"><Icon className="mt-1 h-5 w-5 text-accent" /><div><p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>{href ? <a href={href} className="text-lg hover:text-primary">{value}</a> : <p className="whitespace-pre-line text-lg">{value}</p>}</div></div>
+            ))}
+            {!wa && !rows.length && <p className="text-center text-muted-foreground">Contact details will be added soon.</p>}
+          </div>
         )}
       </section>
     </Layout>
