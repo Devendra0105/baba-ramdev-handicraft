@@ -133,7 +133,7 @@ export default function Index() {
       </section>
 
     
-     <section className="band-forest blend-dark-to-light py-16 text-center">
+     <section className="band-forest py-16 text-center">
 
         <div className="container-wide">
           <h2 className="heading-lg">Have a question?</h2>

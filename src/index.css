@@ -142,6 +142,11 @@
     box-shadow: 
       0 -14px 28px -8px hsl(var(--foreground) / 0.18),
       inset 0 12px 20px -8px hsl(var(--foreground) / 0.10);
+      footer.band-forest::before,
+    footer.band-forest::after {
+    display: none !important;
+}
+
   }
 
   /* Automatically dissolves harsh border lines into a smooth color blend */
@@ -223,6 +228,24 @@
       radial-gradient(circle at 0 0, transparent 9px, hsl(var(--accent) / 0.10) 10px, transparent 11px);
     background-size: 28px 28px;
   }
+  /* Remove all divider shadows and light fades where dark banners touch the footer */
+section.band-forest {
+  box-shadow: none !important;
+}
+
+section.band-forest::after {
+  display: none !important;
+}
+
+footer.band-forest {
+  box-shadow: none !important;
+}
+
+footer.band-forest::before,
+footer.band-forest::after {
+  display: none !important;
+}
+
 }
 
 @layer utilities {
@@ -275,6 +298,8 @@
                       linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(var(--primary) / 0.25), transparent);
     background-origin: border-box;
     background-clip: padding-box, border-box;
+
+
   }
 }
 
