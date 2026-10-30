@@ -88,6 +88,7 @@ function Login() {
 function Products() {
   const qc = useQueryClient();
   const { data = [], refetch } = useQuery({ queryKey: ["admin-products"], queryFn: () => fetchProducts({ publishedOnly: false }) });
+  const { data: cats = [] } = useQuery({ queryKey: ["admin-categories"], queryFn: async () => (await supabase.from("categories").select("id,name").order("sort_order")).data ?? [] });
   const [newName, setNewName] = useState("");
   const done = () => { refetch(); qc.invalidateQueries({ queryKey: ["products"] }); };
 
@@ -115,14 +116,14 @@ function Products() {
   return (
     <div className="space-y-6">
       <div className="flex gap-2"><Input placeholder="New product name" value={newName} onChange={(e) => setNewName(e.target.value)} /><Button onClick={add}>Add product</Button></div>
-      {data.map((p) => <ProductRow key={p.id} p={p} onSave={save} onUpload={upload} onRemoveImg={removeImg} />)}
+      {data.map((p) => <ProductRow key={p.id} p={p} cats={cats} onSave={save} onUpload={upload} onRemoveImg={removeImg} />)}
     </div>
   );
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function ProductRow({ p, onSave, onUpload, onRemoveImg }: { p: any; onSave: (id: string, patch: Record<string, unknown>) => void; onUpload: (id: string, f: File, o: number) => void; onRemoveImg: (id: string, path: string) => void }) {
-  const [f, setF] = useState({ name: p.name, price: p.price ?? "", stock: p.stock, description: p.description ?? "" });
+function ProductRow({ p, cats, onSave, onUpload, onRemoveImg }: { p: any; cats: { id: string; name: string }[]; onSave: (id: string, patch: Record<string, unknown>) => void; onUpload: (id: string, f: File, o: number) => void; onRemoveImg: (id: string, path: string) => void }) {
+  const [f, setF] = useState({ name: p.name, price: p.price ?? "", stock: p.stock, description: p.description ?? "", category_id: p.category?.id ?? p.category_id ?? "" });
   const live = p.status === "published";
   return (
     <div className="rounded-lg border border-border bg-card p-4">
@@ -143,8 +144,13 @@ function ProductRow({ p, onSave, onUpload, onRemoveImg }: { p: any; onSave: (id:
         <div><Label>Price (₹, empty = on request)</Label><Input type="number" min={0} value={f.price} onChange={(e) => setF({ ...f, price: e.target.value })} /></div>
         <div><Label>Pieces in stock</Label><Input type="number" min={0} value={f.stock} onChange={(e) => setF({ ...f, stock: Number(e.target.value) })} /></div>
       </div>
+      <div className="mt-3"><Label>Category</Label>
+        <select className="mt-1 h-10 w-full rounded border border-input bg-background px-3" value={f.category_id} onChange={(e) => setF({ ...f, category_id: e.target.value })}>
+          <option value="">— Choose category —</option>
+          {cats.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+        </select></div>
       <div className="mt-3"><Label>Description</Label><Textarea value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} /></div>
-      <Button className="mt-3" onClick={() => onSave(p.id, { name: f.name, price: f.price === "" ? null : Number(f.price), stock: f.stock, description: f.description || null })}>Save changes</Button>
+      <Button className="mt-3" onClick={() => onSave(p.id, { name: f.name, price: f.price === "" ? null : Number(f.price), stock: f.stock, description: f.description || null, category_id: f.category_id || null })}>Save changes</Button>
     </div>
   );
 }
