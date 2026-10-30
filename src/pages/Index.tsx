@@ -6,7 +6,6 @@ import { ProductCard } from "@/components/ProductCard";
 import { useCategories, useProducts, useSettings } from "@/lib/api";
 import { sortProducts, whatsappLink } from "@/lib/shop";
 import hero from "@/assets/hero.jpg";
-import craft from "@/assets/craft.jpg";
 import story from "@/assets/p-knight.jpg";
 import dhal from "@/assets/about.jpg";
 import cork from "@/assets/cork.jpg";
@@ -18,6 +17,7 @@ import silver from "@/assets/silver_sword.jpg";
 import suryavanshi from "@/assets/suryavanshi_dhal.jpg";
 import swordmuth from "@/assets/sword_muth.jpg";
 import unique from "@/assets/uniique.jpg";
+import uniique_muth from '@/assets/uniique_muth.jpg';
 function SectionHead({ eyebrow, title, text }: { eyebrow?: string; title: string; text?: string }) {
   return (
     <div className="mb-10 text-center md:mb-14">
@@ -105,7 +105,7 @@ export default function Index() {
 
       <section className="section">
         <div className="container-wide grid items-center gap-12 md:grid-cols-2">
-          <img src={craft} alt="Handcrafted pieces from the workshop" loading="lazy" className="aspect-[4/5] w-full border border-border object-cover shadow-elegant" />
+          <img src={uniique_muth} alt="Handcrafted pieces from the workshop" loading="lazy" className="aspect-[4/5] w-full border border-border object-cover shadow-elegant" />
           <div>
             <p className="eyebrow">Craftsmanship</p>
             <h2 className="heading-lg mt-3">Made by hand</h2>

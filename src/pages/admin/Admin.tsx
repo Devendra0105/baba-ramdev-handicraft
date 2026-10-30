@@ -112,13 +112,42 @@ function Products() {
     await supabase.storage.from(BUCKET).remove([path]);
     await supabase.from("product_images").delete().eq("id", imgId); done();
   };
+    const [newCatName, setNewCatName] = useState("");
 
-  return (
+  const addCategory = async () => {
+    if (!newCatName.trim()) return;
+    const { error } = await supabase.from("categories").insert({
+      name: newCatName.trim(),
+      slug: `${slugify(newCatName)}-${Date.now().toString(36)}`,
+      sort_order: cats.length + 1,
+      is_active: true,
+    } as never);
+    if (error) toast.error(error.message);
+    else {
+      toast.success("Category added");
+      setNewCatName("");
+      qc.invalidateQueries({ queryKey: ["admin-categories"] });
+      qc.invalidateQueries({ queryKey: ["categories"] });
+    }
+  };
+
+
+    return (
     <div className="space-y-6">
-      <div className="flex gap-2"><Input placeholder="New product name" value={newName} onChange={(e) => setNewName(e.target.value)} /><Button onClick={add}>Add product</Button></div>
+      <div className="grid gap-2 sm:grid-cols-2">
+        <div className="flex gap-2">
+          <Input placeholder="New product name" value={newName} onChange={(e) => setNewName(e.target.value)} />
+          <Button onClick={add}>Add product</Button>
+        </div>
+        <div className="flex gap-2">
+          <Input placeholder="New category name (e.g. Daggers)" value={newCatName} onChange={(e) => setNewCatName(e.target.value)} />
+          <Button variant="outline" onClick={addCategory}>Add category</Button>
+        </div>
+      </div>
       {data.map((p) => <ProductRow key={p.id} p={p} cats={cats} onSave={save} onUpload={upload} onRemoveImg={removeImg} />)}
     </div>
   );
+
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

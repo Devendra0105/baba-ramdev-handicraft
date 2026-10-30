@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import craft from "@/assets/craft.jpg";
+import uniique_muth from "@/assets/uniique_muth.jpg";
 import about from "@/assets/about.jpg";
 
 const pillars = [
@@ -14,7 +14,7 @@ export default function Craft() {
   return (
     <Layout title="Our Craft">
       <section className="relative overflow-hidden">
-        <img src={craft} alt="Blacksmith at work at the forge" width={1920} height={912} className="absolute inset-0 h-full w-full object-cover" />
+        <img src={uniique_muth} alt="Blacksmith at work at the forge" width={1920} height={912} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-background/70" />
         <div className="container-wide relative py-32 text-center">
           <p className="eyebrow">Our Craft</p>
