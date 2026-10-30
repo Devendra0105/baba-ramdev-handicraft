@@ -92,7 +92,7 @@ function Products() {
   const done = () => { refetch(); qc.invalidateQueries({ queryKey: ["products"] }); };
 
   const save = async (id: string, patch: Record<string, unknown>) => {
-    const { error } = await supabase.from("products").update(patch).eq("id", id);
+    const { error } = await supabase.from("products").update(patch as never).eq("id", id);
     if (error) toast.error(error.message); else { toast.success("Saved"); done(); }
   };
   const add = async () => {
@@ -191,7 +191,7 @@ function Settings() {
   useEffect(() => { supabase.from("business_settings").select("*").eq("id", 1).maybeSingle().then(({ data }) => data && setS(Object.fromEntries(Object.entries(data).map(([k, v]) => [k, v == null ? "" : String(v)])))); }, []);
   const save = async () => {
     const patch = Object.fromEntries(FIELDS.map(([k]) => [k, s[k]?.trim() || null]));
-    const { error } = await supabase.from("business_settings").update(patch).eq("id", 1);
+    const { error } = await supabase.from("business_settings").update(patch as never).eq("id", 1);
     if (error) toast.error(error.message); else { toast.success("Shop details saved"); qc.invalidateQueries({ queryKey: ["settings"] }); }
   };
   return (
