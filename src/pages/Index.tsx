@@ -6,7 +6,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { useCategories, useProducts, useSettings } from "@/lib/api";
 import { sortProducts, whatsappLink } from "@/lib/shop";
 import hero from "@/assets/hero.jpg";
-import story from "@/assets/p-knight.jpg";
+import story from "@/assets/p-knight.png";
 import uniique_muth from '@/assets/uniique_muth.jpg';
 function SectionHead({ eyebrow, title, text }: { eyebrow?: string; title: string; text?: string }) {
   return (
@@ -35,8 +35,8 @@ export default function Index() {
 
         <img
           src={hero}
-          alt="Handcrafted swords and talwars from Sirohi"
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          alt="Handcrafted swords and talwars"
+          className="absolute inset-0 h-full w-full object-cover object-right md:object-center"
         />
         {/* Dark radial gradient overlay for high text contrast */}
         <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/20" />
@@ -112,7 +112,7 @@ export default function Index() {
 
       <section className="section jaali border-t border-border bg-secondary/40">
         <div className="container-wide grid items-center gap-12 md:grid-cols-2">
-          <div className="md:order-2"><img src={story} alt="Pieces from the shop" loading="lazy" className="arch aspect-[4/5] w-full max-w-md object-cover" /></div>
+          <div className="md:order-2"><img src={story} alt="Pieces from the shop" loading="lazy" className="arch aspect-[4/5] w-full max-w-md object-contain p=6" /></div>
           <div>
             <p className="eyebrow">Our Story</p>
             <h2 className="heading-lg mt-3">From Sirohi</h2>
