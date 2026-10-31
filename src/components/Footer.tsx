@@ -22,7 +22,7 @@ export function Footer() {
           {socials.length > 0 && (
             <div className="mt-5 flex gap-3">
               {socials.map(({ href, Icon, label }) => (
-                <a key={label} href={href!} target="_blank" rel="noreferrer" aria-label={label} className="flex h-9 w-9 items-center justify-center border border-current/30 hover:text-brass"><Icon className="h-4 w-4" /></a>
+                <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className="flex h-9 w-9 items-center justify-center border border-current/30 hover:text-brass"><Icon className="h-4 w-4" /></a>
               ))}
             </div>
           )}
@@ -51,7 +51,7 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-current/15 py-5 text-center text-xs opacity-70">© {new Date().getFullYear()} {s?.business_name ?? "Baba Ramdev Handicrafts"}</div>
+      <div className="border-t border-current/15 py-5 text-center text-xs opacity-70">© {new Date().getFullYear()} Baba Ramdev Handicrafts</div>
     </footer>
   );
 }
