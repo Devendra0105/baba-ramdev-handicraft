@@ -1,6 +1,5 @@
 /**
- * CENTRAL CATALOG — edit this file to change collections, products, prices,
- * descriptions and images across the entire site.
+ * LOCAL FALLBACK CATALOG — live products and categories are managed in /admin.
  *
  * All products and prices below are FICTIONAL DEMO CONTENT.
  */
@@ -41,9 +40,9 @@ export interface Product {
 }
 
 export const collections: Collection[] = [
-  { id: "dhal", name: "Dhal", description: "Arming swords and longswords inspired by the knights of Europe.", image: dhal },
-  { id: "cork", name: "cork guns", description: "Katana-style display pieces shaped by tradition.", image: cork },
-  { id: "golden", name: "Golden sword", description: "Rapiers, sabres and basket hilts from Renaissance to Regency.", image: golden},
+  { id: "dhal", name: "Dhal", description: "Decorative shields and wall display pieces.", image: dhal },
+  { id: "cork", name: "Cork Guns", description: "Cork guns from the shop collection.", image: cork },
+  { id: "golden", name: "Golden Pieces", description: "Gold-tone decorative shields and display pieces.", image: golden},
   { id: "silver", name: "Silver Pieces", description: "Statement blades made for the study wall and cabinet.", image: silverSword},
 ];
 export const products: Product[] = [

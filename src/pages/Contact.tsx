@@ -14,7 +14,7 @@ export default function Contact() {
   ].filter((r) => r.value);
   return (
     <Layout title="Contact">
-      <PageHeader eyebrow="Get in touch" title="Contact Us" text="The quickest way to reach us is WhatsApp." />
+      <PageHeader eyebrow="Get in touch" title="Contact Baba Ramdev Handicrafts" />
       <section className="container-wide max-w-2xl py-12">
         {isLoading ? <StateBox title="Loading…" /> : (
           <div className="space-y-6 border border-border bg-card p-8">

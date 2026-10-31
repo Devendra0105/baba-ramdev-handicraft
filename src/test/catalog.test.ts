@@ -1,15 +1,16 @@
 import { describe, it, expect } from "vitest";
-import { products } from "@/data/products";
+import type { Product } from "@/data/products";
 import { cartSubtotal, filterProducts, setQty, sortProducts, isValidEmail } from "@/lib/catalog";
 
 describe("catalog rules", () => {
-  it("has the six demo prices in INR", () => {
-    expect(products.map((p) => p.price)).toEqual([12499, 15999, 18499, 10999, 21999, 8999]);
-  });
+  const products: Product[] = [
+    { id: "shield", slug: "shield", name: "Shield", category: "shields", price: 100, description: "", details: "", specs: [], image: "" },
+    { id: "talwar", slug: "talwar", name: "Talwar", category: "talwars", price: 250, description: "", details: "", specs: [], image: "" },
+  ];
 
   it("calculates subtotal from quantities", () => {
-    const lines = [{ id: "highland-heritage", qty: 2 }, { id: "ceremonial-blade", qty: 1 }];
-    expect(cartSubtotal(lines, products)).toBe(12499 * 2 + 8999);
+    const lines = [{ id: "shield", qty: 2 }, { id: "talwar", qty: 1 }];
+    expect(cartSubtotal(lines, products)).toBe(450);
   });
 
   it("removes a line when quantity drops to zero", () => {
@@ -17,12 +18,12 @@ describe("catalog rules", () => {
   });
 
   it("sorts by price ascending", () => {
-    expect(sortProducts(products, "price-asc")[0].price).toBe(8999);
+    expect(sortProducts(products, "price-asc")[0].price).toBe(100);
   });
 
   it("searches by category name", () => {
-    const r = filterProducts(products, { query: "japanese", categoryNames: { japanese: "Japanese-Inspired" } });
-    expect(r.map((p) => p.id)).toEqual(["imperial-katana"]);
+    const r = filterProducts(products, { query: "wall", categoryNames: { shields: "Wall Shields" } });
+    expect(r.map((p) => p.id)).toEqual(["shield"]);
   });
 
   it("validates emails", () => {

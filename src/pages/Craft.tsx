@@ -14,11 +14,11 @@ export default function Craft() {
   return (
     <Layout title="Our Craft">
       <section className="relative overflow-hidden">
-        <img src={uniique_muth} alt="Blacksmith at work at the forge" width={1920} height={912} className="absolute inset-0 h-full w-full object-cover" />
+        <img src={uniique_muth} alt="Decorative sword hilt detail" width={1920} height={912} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-background/70" />
         <div className="container-wide relative py-32 text-center">
           <p className="eyebrow">Our Craft</p>
-          <h1 className="heading-xl mt-4">Where Craft Meets Legacy</h1>
+          <h1 className="heading-xl mt-4">Baba Ramdev Handicrafts</h1>
           <p className="mx-auto mt-6 max-w-xl text-foreground/85">Every design tells a story. Discover the artistry, historical inspiration, and fine details behind distinctive collector pieces.</p>
         </div>
       </section>
