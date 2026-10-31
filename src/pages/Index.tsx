@@ -7,16 +7,6 @@ import { useCategories, useProducts, useSettings } from "@/lib/api";
 import { sortProducts, whatsappLink } from "@/lib/shop";
 import hero from "@/assets/hero.jpg";
 import story from "@/assets/p-knight.jpg";
-import dhal from "@/assets/about.jpg";
-import cork from "@/assets/cork.jpg";
-import golden from "@/assets/golden_dhal.jpg";
-import muth from "@/assets/muth.jpg";
-import proyal from "@/assets/proyal.jpg";
-import blue from "@/assets/pack_blue.jpg";
-import silver from "@/assets/silver_sword.jpg";
-import suryavanshi from "@/assets/suryavanshi_dhal.jpg";
-import swordmuth from "@/assets/sword_muth.jpg";
-import unique from "@/assets/uniique.jpg";
 import uniique_muth from '@/assets/uniique_muth.jpg';
 function SectionHead({ eyebrow, title, text }: { eyebrow?: string; title: string; text?: string }) {
   return (
@@ -44,7 +34,7 @@ export default function Index() {
     <section className="blend-dark-to-light relative flex min-h-[82vh] items-center overflow-hidden bg-background">
 
         <img
-          src={"src/assets/hero.jpg"}
+          src={hero}
           alt="Handcrafted swords and talwars from Sirohi"
           className="absolute inset-0 h-full w-full object-cover object-center"
         />

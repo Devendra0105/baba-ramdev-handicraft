@@ -9,7 +9,7 @@ export default function About() {
   const { data: s } = useSettings();
   return (
     <Layout title="Our Story">
-      <PageHeader eyebrow="Our Story" title={s?.business_name ?? "Baba Ramdev Handicrafts"} />
+      <PageHeader eyebrow="Our Story" title="Baba Ramdev Handicrafts" />
       <section className="container-wide grid items-center gap-12 py-14 md:grid-cols-2">
         <img src={story} alt="Pieces from the shop" className="arch aspect-[4/5] w-full max-w-md object-cover" />
         <div>
