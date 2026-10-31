@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Hammer, MessageCircle, ScrollText } from "lucide-react";
+import { Hammer, MessageCircle, Pin, ScrollText } from "lucide-react";
 import { Layout, Divider, StateBox } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
@@ -44,16 +44,25 @@ export default function Index() {
         <div className="container-wide relative py-20 md:py-28">
           <div className="max-w-2xl">
             <p className="eyebrow text-accent">Sirohi, Rajasthan</p>
-            <h1 className="heading-xl mt-5">
+                        <h1 className="heading-xl mt-5">
               Baba Ramdev <em className="text-accent">Handicrafts</em>
             </h1>
-            <p className="mt-6 max-w-lg text-lg text-foreground/85">
-              Decorative talwars, swords, wall displays and traditional royal handicrafts. Browse our curated pieces and send an inquiry directly.
-            </p>
+
+            {/* Legacy Tagline & Description */}
+            <div className="mt-6 max-w-xl space-y-3">
+              <p className="font-serif text-xl font-medium tracking-wide text-accent sm:text-2xl">
+                The Legacy of Sirohi, Forged in Steel. Rooted in Honour.
+              </p>
+              <p className="text-base leading-relaxed text-foreground/90 sm:text-lg">
+                Sirohi Talwar – An enduring symbol of Rajasthan&apos;s royal heritage, courage and traditional craftsmanship.
+              </p>
+            </div>
+
             <div className="mt-8 flex flex-wrap gap-4">
               <Button asChild size="lg" className="h-12 px-8">
                 <Link to="/shop">Explore Collection</Link>
               </Button>
+
               <Button asChild size="lg" variant="outline" className="h-12 border-foreground/30 bg-background/40 backdrop-blur-sm px-8">
                 <Link to="/collections">Browse Handicrafts</Link>
               </Button>
@@ -97,12 +106,12 @@ export default function Index() {
         <div className="container-wide grid items-center gap-12 md:grid-cols-2">
           <img src={uniique_muth} alt="Handcrafted pieces from the workshop" loading="lazy" className="aspect-[4/5] w-full border border-border object-cover shadow-elegant" />
           <div>
-            <p className="eyebrow">Craftsmanship</p>
-            <h2 className="heading-lg mt-3">Made by hand</h2>
+            <p className="eyebrow">OUR HARITAGE</p>
+            <h2 className="heading-lg mt-3">A Legacy Worth Preserving</h2>
             <ul className="mt-8 space-y-6">
-              {[{ Icon: Hammer, t: "Handcrafted pieces", d: "Each piece is shaped and finished by hand, so small variations are natural." },
-                { Icon: ScrollText, t: "Clear details", d: "Prices and details are listed on each product. Ask us if anything is missing." },
-                { Icon: MessageCircle, t: "Talk to us directly", d: "Send an inquiry or message us on WhatsApp — we confirm every order personally." }].map(({ Icon, t, d }) => (
+              {[{ Icon: Pin, t: "Rooted in Sirohi", d: "known for its association with traditional sword-making and rich cultural heritage. Its name carries a legacy of Rajputana's courage, artistry and royal traditions." },
+                { Icon: ScrollText, t: "Tradition in Every Detail", d: "Discover distinctive designs that reflect the timeless elegance of Rajasthan's royal past." },
+                { Icon: MessageCircle, t: "Talk to us directly", d: "Send an inquiry or message us on WhatsApp — we confirm every order personally. If you want us to build something Unique for You, Contact us !" }].map(({ Icon, t, d }) => (
                 <li key={t} className="flex gap-4"><Icon className="mt-1 h-6 w-6 shrink-0 text-accent" strokeWidth={1.5} /><div><p className="font-serif text-xl">{t}</p><p className="text-muted-foreground">{d}</p></div></li>
               ))}
             </ul>
@@ -115,8 +124,20 @@ export default function Index() {
           <div className="md:order-2"><img src={story} alt="Pieces from the shop" loading="lazy" className="arch aspect-[4/5] w-full max-w-md object-contain p=6" /></div>
           <div>
             <p className="eyebrow">Our Story</p>
-            <h2 className="heading-lg mt-3">From Sirohi</h2>
-            <p className="mt-6 text-lg leading-relaxed text-muted-foreground">{s?.intro || "Baba Ramdev Handicrafts brings together decorative swords, talwars and traditional handicrafts from Sirohi, a town known for its swords."}</p>
+            <h2 className="heading-lg mt-3">A Legacy of Trust Since 1990</h2>
+          <div className="mt-6 max-w-2xl text-base md:text-lg leading-relaxed text-muted-foreground">
+  <p>
+    For over 36 years, we have proudly served Sirohi with three
+    shops built on trust, quality and honest pricing. Our
+    commitment is simple: to help every customer find their
+    desired sword with the right quality, genuine value and
+    personal attention. Your trust is the legacy we cherish.
+  </p>
+
+  <p className="mt-4 text-foreground font-medium">
+    Three Shops. 36 Years of Trust. One Promise of Quality.
+  </p>
+</div>
             <Button asChild size="lg" className="mt-8"><Link to="/about">Read our story</Link></Button>
           </div>
         </div>
@@ -127,7 +148,12 @@ export default function Index() {
 
         <div className="container-wide">
           <h2 className="heading-lg">Have a question?</h2>
-          <p className="mx-auto mt-4 max-w-lg opacity-85">Ask about a piece, a custom requirement or bulk orders.</p>
+          <div className="mx-auto mt-4 max-w-lg space-y-3 text-center text-sm">
+  <p>Looking for a particular sword or blade design?</p>
+  <p>Want a specific style, finish or decorative detail?</p>
+  <p>Couldn't find what you wanted in our collection?</p>
+  <p>Interested in bulk orders or special enquiries?</p>
+</div>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {wa && <Button asChild size="lg" className="bg-brass text-walnut hover:bg-brass/90"><a href={wa} target="_blank" rel="noreferrer">WhatsApp us</a></Button>}
             <Button asChild size="lg" variant="outline" className="border-current/40 bg-transparent hover:bg-forest-foreground/10"><Link to="/contact">Contact details</Link></Button>

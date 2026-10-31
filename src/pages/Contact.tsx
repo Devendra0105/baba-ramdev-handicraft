@@ -6,7 +6,7 @@ import { whatsappLink } from "@/lib/shop";
 
 export default function Contact() {
   const { data: s, isLoading } = useSettings();
-  const wa = whatsappLink(s?.whatsapp, "Hello, I have a question.");
+  const wa = whatsappLink(s?.whatsapp, "Hello Baba Ramdev Handicrafts, I have a question. (redirected from website) ");
   const rows = [
     { Icon: Phone, label: "Phone", value: s?.phone, href: s?.phone ? `tel:${s.phone}` : undefined },
     { Icon: Mail, label: "Email", value: s?.email, href: s?.email ? `mailto:${s.email}` : undefined },
