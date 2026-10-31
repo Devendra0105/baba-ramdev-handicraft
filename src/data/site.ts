@@ -1,6 +1,5 @@
 /**
- * Store contact details & social links. These are PLACEHOLDERS —
- * replace them with your real details before going live.
+ * Legacy local contact configuration. Current pages use saved shop settings.
  */
 export const siteConfig = {
   email: "nirmalmali360@gmail.com",
@@ -8,6 +7,6 @@ export const siteConfig = {
   address: "Near Baba Ramdev Hotel, Sirohi (Rajasthan), PIN: 307001",
   social: {
     instagram: "https://www.instagram.com/baba_ramdev_handicrafts?mdxt=ZXd0MnFjcDEyZWkx",
-    facebook: "https://facebook.com/your-page"
+    facebook: ""
   },
 };
