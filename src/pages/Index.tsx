@@ -5,7 +5,11 @@ import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 import { useCategories, useProducts, useSettings } from "@/lib/api";
 import { sortProducts, whatsappLink } from "@/lib/shop";
+import { useEffect, useState } from "react";
 import hero from "@/assets/hero.jpg";
+import hero2 from "@/assets/hero2.jpg";
+import hero3 from "@/assets/hero3.jpg";
+import hero5 from "@/assets/hero5.webp";
 import story from "@/assets/p-knight.png";
 import uniique_muth from '@/assets/uniique_muth.jpg';
 function SectionHead({ eyebrow, title, text }: { eyebrow?: string; title: string; text?: string }) {
@@ -19,7 +23,14 @@ function SectionHead({ eyebrow, title, text }: { eyebrow?: string; title: string
   );
 }
 
+const heroSlides = [hero, hero2, hero3, hero5];
+
 export default function Index() {
+  const [slide, setSlide] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setSlide((s) => (s + 1) % heroSlides.length), 3000);
+    return () => clearInterval(t);
+  }, []);
   const { data: products, isLoading, isError } = useProducts();
   const { data: cats = [] } = useCategories();
   const { data: s } = useSettings();
@@ -33,11 +44,16 @@ export default function Index() {
 
     <section className="blend-dark-to-light relative flex min-h-[82vh] items-center overflow-hidden bg-background">
 
-        <img
-          src={hero}
-          alt="Handcrafted swords and talwars"
-          className="absolute inset-0 h-full w-full object-cover object-right md:object-center"
-        />
+        {heroSlides.map((src, i) => (
+          <img
+            key={src}
+            src={src}
+            alt={i === slide ? "Handcrafted swords and talwars" : ""}
+            aria-hidden={i !== slide}
+            loading={i === 0 ? "eager" : "lazy"}
+            className={`absolute inset-0 h-full w-full object-cover object-right transition-opacity duration-1000 ease-in-out md:object-center ${i === slide ? "opacity-100" : "opacity-0"}`}
+          />
+        ))}
         {/* Dark radial gradient overlay for high text contrast */}
         <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/20" />
 
