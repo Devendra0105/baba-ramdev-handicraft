@@ -1,20 +1,21 @@
 import { Link } from "react-router-dom";
+import brandEmblem from "../assets/brand-emblem.png";
 
 export function Emblem({ className = "h-7 w-7" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 32 32" className={className} aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.2">
-      <path d="M16 2 L28 8 V17 C28 24 22 28.5 16 30 C10 28.5 4 24 4 17 V8 Z" />
-      <path d="M16 6 V25" strokeWidth="1.6" />
-      <path d="M11 19 H21" strokeWidth="1.6" />
-      <circle cx="16" cy="22.5" r="1.2" fill="currentColor" />
-    </svg>
+    <img
+      src={brandEmblem}
+      alt="Baba Ramdev Handicrafts emblem"
+      className={className}
+      draggable={false}
+    />
   );
 }
 
 export function Logo() {
   return (
     <Link to="/" className="group flex items-center gap-2.5" aria-label="Baba Ramdev Handicrafts home">
-      <Emblem className="h-8 w-8 shrink-0 text-primary transition-transform duration-500 group-hover:rotate-6" />
+      <Emblem className="h-8 w-8 shrink-0 rounded-full object-cover transition-transform duration-500 group-hover:rotate-6" />
       <span className="max-w-40 font-serif text-base font-semibold leading-tight text-foreground sm:max-w-72 sm:text-xl">
         Baba Ramdev Handicrafts
       </span>

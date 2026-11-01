@@ -54,7 +54,7 @@ export default function Index() {
     <Layout>
             {/* Full-bleed Sword Background Hero */}
 
-    <section className="blend-dark-to-light relative flex min-h-[82vh] items-center overflow-hidden bg-forest text-forest-foreground">
+        <section className="blend-dark-to-light relative flex min-h-[82vh] items-center overflow-hidden bg-[#1f1a17] text-[#f4ede2]">
 
         {heroSlides.map((src, i) => loadedSlides.includes(i) && (
           <img
@@ -68,38 +68,49 @@ export default function Index() {
             className={`absolute inset-0 h-full w-full object-cover object-right transition-opacity duration-1000 ease-in-out md:object-center ${i === slide ? "opacity-100" : "opacity-0"}`}
           />
         ))}
-        {/* Dark radial gradient overlay for high text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-r from-forest/95 via-forest/80 to-forest/40" />
+
+        {/* Subtle, soft fade: 65% dark on text side, gently tapering to 20% on the sword side */}
+        <div 
+          className="absolute inset-0 pointer-events-none" 
+          style={{
+            background: "linear-gradient(to right, rgba(22, 18, 16, 0.72) 0%, rgba(22, 18, 16, 0.48) 50%, rgba(22, 18, 16, 0.18) 100%)"
+          }}
+        />
 
         <div className="container-wide relative py-20 md:py-28">
           <div className="max-w-2xl">
-            <p className="eyebrow text-accent">Sirohi, Rajasthan</p>
-                        <h1 className="heading-xl mt-5">
-              Baba Ramdev <em className="text-accent">Handicrafts</em>
+            {/* 1. "SIROHI, RAJASTHAN" — Bright Antique Gold for crisp contrast */}
+            <p className="eyebrow text-[#e5be75] font-semibold tracking-widest drop-shadow-sm">
+              Sirohi, Rajasthan
+            </p>
+
+            {/* 2. "Baba Ramdev Handicrafts" — Crisp Royal Ivory + Warm Kundan Gold */}
+            <h1 className="heading-xl mt-5 text-[#f9f5ed] drop-shadow-md">
+              Baba Ramdev <em className="not-italic text-[#e5be75] italic">Handicrafts</em>
             </h1>
 
-            {/* Legacy Tagline & Description */}
+            {/* 3. "The Legacy of Sirohi, Forged in Steel. Rooted in Honour." */}
             <div className="mt-6 max-w-xl space-y-3">
-              <p className="font-serif text-xl font-medium tracking-wide text-accent sm:text-2xl">
+              <p className="font-serif text-xl font-medium tracking-wide text-[#e8d5b5] sm:text-2xl drop-shadow-sm">
                 The Legacy of Sirohi, Forged in Steel. Rooted in Honour.
               </p>
-              <p className="text-base leading-relaxed text-forest-foreground sm:text-lg">
+              <p className="text-base leading-relaxed text-[#dcd2c4] sm:text-lg">
                 Sirohi Talwar – An enduring symbol of Rajasthan&apos;s royal heritage, courage and traditional craftsmanship.
               </p>
             </div>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <Button asChild size="lg" className="h-12 px-8">
+              <Button asChild size="lg" className="h-12 px-8 bg-[#8f2029] hover:bg-[#721920] text-[#fdfaf5]">
                 <Link to="/shop">Explore Collection</Link>
               </Button>
 
-              <Button asChild size="lg" variant="outline" className="h-12 border-forest-foreground/50 bg-forest/60 px-8 text-forest-foreground hover:bg-forest hover:text-forest-foreground">
+              <Button asChild size="lg" variant="outline" className="h-12 border-[#e5be75]/60 bg-[#1f1a17]/50 px-8 text-[#f4ede2] hover:bg-[#1f1a17] hover:text-[#e5be75]">
                 <Link to="/collections">Browse Handicrafts</Link>
               </Button>
             </div>
           </div>
         </div>
-      </section>
+    </section>
 
 
       {cats.length > 0 && (

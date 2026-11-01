@@ -45,7 +45,7 @@ Use Node.js 20.19+ or 22.12+ and npm.
 - `src/components/` — shared storefront elements and UI controls
 - `src/integrations/supabase/` — managed backend client and types
 - `supabase/functions/submit-inquiry/` — server-side inquiry submission
-- `public/favicon.svg` — icon derived from the site's existing shield-and-sword emblem
+- `public/favicon.png` — icon derived from the site's existing shield-and-sword emblem
 
 ## Owner management
 
