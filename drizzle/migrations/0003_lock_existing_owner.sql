@@ -1,0 +1,3 @@
+CREATE UNIQUE INDEX IF NOT EXISTS one_shop_admin ON public.user_roles (role) WHERE role = 'admin';
+CREATE OR REPLACE FUNCTION public.claim_first_admin() RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$ SELECT public.has_role(auth.uid(), 'admin'); $$;
+COMMENT ON FUNCTION public.claim_first_admin() IS 'Compatibility only: checks the existing owner; never assigns roles.';
