@@ -8,8 +8,9 @@ import { sortProducts, whatsappLink } from "@/lib/shop";
 import { useEffect, useState } from "react";
 import hero from "@/assets/hero.jpg";
 import hero2 from "@/assets/hero2.jpg";
-import hero3 from "@/assets/hero3.jpg";
-import hero5 from "@/assets/hero5.webp";
+import hero3 from "@/assets/hero3.jpg.webp";
+import hero5 from "@/assets/hero5.jpg";
+import hero7 from "@/assets/hero7.jpg";
 import story from "@/assets/p-knight.png";
 import uniique_muth from '@/assets/uniique_muth.jpg';
 function SectionHead({ eyebrow, title, text }: { eyebrow?: string; title: string; text?: string }) {
@@ -23,7 +24,7 @@ function SectionHead({ eyebrow, title, text }: { eyebrow?: string; title: string
   );
 }
 
-const heroSlides = [hero, hero2, hero3, hero5];
+const heroSlides = [hero, hero2, hero3, hero5,hero7];
 
 export default function Index() {
   const [slide, setSlide] = useState(0);
