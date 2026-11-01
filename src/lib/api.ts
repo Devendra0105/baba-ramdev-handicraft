@@ -8,13 +8,26 @@ export const BUCKET = "product-images";
 const PRODUCT_SELECT =
   "*, category:categories(id,slug,name), images:product_images(id,storage_path,url,alt,sort_order)";
 
-/** The image bucket is private; resolve storage paths to signed URLs in one batch. */
+const imageUrlCache = new Map<string, { url: string; expiresAt: number }>();
+/** Keep private image URLs reusable across page visits, refreshing before expiry. */
 export async function resolveImageUrls(paths: string[]): Promise<Record<string, string>> {
   const unique = [...new Set(paths.filter((p) => p && !/^https?:/.test(p)))];
   const out: Record<string, string> = {};
   if (!unique.length) return out;
-  const { data } = await supabase.storage.from(BUCKET).createSignedUrls(unique, 60 * 60 * 6);
-  data?.forEach((d) => { if (d.signedUrl && d.path) out[d.path] = d.signedUrl; });
+  const missing = unique.filter((path) => {
+    const cached = imageUrlCache.get(path);
+    if (!cached || cached.expiresAt <= Date.now()) return true;
+    out[path] = cached.url;
+    return false;
+  });
+  if (!missing.length) return out;
+  const { data } = await supabase.storage.from(BUCKET).createSignedUrls(missing, 60 * 60 * 6);
+  data?.forEach((d) => {
+    if (d.signedUrl && d.path) {
+      out[d.path] = d.signedUrl;
+      imageUrlCache.set(d.path, { url: d.signedUrl, expiresAt: Date.now() + 5 * 60 * 60 * 1000 });
+    }
+  });
   return out;
 }
 
@@ -95,8 +108,9 @@ export function useProduct(slug: string | undefined) {
     queryKey: ["product", slug],
     enabled: !!slug,
     queryFn: async () => {
+      if (!slug) return null;
       try {
-        const { data } = await supabase.from("products").select(PRODUCT_SELECT).eq("slug", slug!).eq("status", "published").maybeSingle();
+        const { data } = await supabase.from("products").select(PRODUCT_SELECT).eq("slug", slug).eq("status", "published").maybeSingle();
         if (data) return (await mapProducts([data]))[0];
       } catch {}
       const fallback = getLocalShopProducts().find((p) => p.slug === slug);

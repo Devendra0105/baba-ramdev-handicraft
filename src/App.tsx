@@ -5,18 +5,19 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { StoreProvider } from "./context/InquiryCartContext";
 import Index from "./pages/Index";
-import Shop from "./pages/Shop";
-import Collections from "./pages/Collections";
-import ProductDetail from "./pages/ProductDetail";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
-import Policy from "./pages/Policy";
-import NotFound from "./pages/NotFound";
-import Admin from "./pages/admin/Admin";
+import { lazy, Suspense } from "react";
+const Shop = lazy(() => import("./pages/Shop"));
+const Collections = lazy(() => import("./pages/Collections"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Cart = lazy(() => import("./pages/Cart"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const Policy = lazy(() => import("./pages/Policy"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Admin = lazy(() => import("./pages/admin/Admin"));
 
-const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } } });
+const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 1, gcTime: 30 * 60_000, refetchOnWindowFocus: false } } });
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -25,7 +26,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <ScrollToTop />
-          <Routes>
+          <Suspense fallback={<div className="container-wide py-20 text-foreground" role="status">Loading…</div>}><Routes>
             <Route path="/" element={<Index />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/products" element={<Navigate to="/shop" replace />} />
@@ -39,7 +40,7 @@ const App = () => (
             <Route path="/policies/:slug" element={<Policy />} />
             <Route path="/admin/*" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
-          </Routes>
+          </Routes></Suspense>
         </BrowserRouter>
       </StoreProvider>
     </TooltipProvider>

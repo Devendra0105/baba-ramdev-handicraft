@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BUCKET, fetchProducts } from "@/lib/api";
 import { INQUIRY_STATUSES, formatINR, slugify, statusLabel, whatsappLink } from "@/lib/shop";
+import { checkOwnerAccess } from "@/lib/owner-access";
 
 export default function Admin() {
   const [session, setSession] = useState<Session | null>(null);
@@ -26,8 +27,11 @@ export default function Admin() {
 
   useEffect(() => {
     if (!session) { setIsAdmin(null); return; }
-    // First account ever becomes the owner; everyone else is refused.
-    supabase.rpc("claim_first_admin").then(({ data }) => setIsAdmin(!!data));
+    let active = true;
+    setIsAdmin(null);
+    checkOwnerAccess(session.user.id).then((allowed) => { if (active) setIsAdmin(allowed); })
+      .catch(() => { if (active) setIsAdmin(false); });
+    return () => { active = false; };
   }, [session]);
 
   if (!ready) return <Layout title="Admin"><p className="container-wide py-20">Loading…</p></Layout>;
@@ -58,28 +62,22 @@ export default function Admin() {
 
 function Login() {
   const [email, setEmail] = useState(""); const [pw, setPw] = useState("");
-  const [mode, setMode] = useState<"in" | "up">("in"); const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState(false);
   const submit = async (e: FormEvent) => {
     e.preventDefault(); setBusy(true);
-    const { error } = mode === "in"
-      ? await supabase.auth.signInWithPassword({ email, password: pw })
-      : await supabase.auth.signUp({ email, password: pw, options: { emailRedirectTo: `${window.location.origin}/admin` } });
+    const { error } = await supabase.auth.signInWithPassword({ email, password: pw });
     setBusy(false);
     if (error) return toast.error(error.message);
-    if (mode === "up") toast.success("Check your email and click the link to confirm, then sign in.");
   };
   return (
     <Layout title="Owner sign in">
       <section className="container-wide max-w-sm py-20">
-        <h1 className="heading-lg">{mode === "in" ? "Owner sign in" : "Create owner account"}</h1>
+        <h1 className="heading-lg">Owner sign in</h1>
         <form onSubmit={submit} className="mt-6 space-y-4">
           <div><Label htmlFor="em">Email</Label><Input id="em" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1" /></div>
           <div><Label htmlFor="pw">Password</Label><Input id="pw" type="password" required minLength={8} value={pw} onChange={(e) => setPw(e.target.value)} className="mt-1" /></div>
-          <Button className="w-full" disabled={busy}>{busy ? "Please wait…" : mode === "in" ? "Sign in" : "Create account"}</Button>
+          <Button className="w-full" disabled={busy}>{busy ? "Please wait…" : "Sign in"}</Button>
         </form>
-        <button className="mt-4 text-sm underline" onClick={() => setMode(mode === "in" ? "up" : "in")}>
-          {mode === "in" ? "First time? Create the owner account" : "Already have an account? Sign in"}
-        </button>
       </section>
     </Layout>
   );
