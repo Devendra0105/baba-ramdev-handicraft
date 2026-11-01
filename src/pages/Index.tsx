@@ -7,11 +7,11 @@ import { useCategories, useProducts, useSettings } from "@/lib/api";
 import { sortProducts, whatsappLink } from "@/lib/shop";
 import { useEffect, useState } from "react";
 import hero from "@/assets/hero.jpg";
-import hero2 from "@/assets/hero2.jpg";
+import hero2 from "@/assets/hero2.webp";
 import hero3 from "@/assets/hero3.jpg.webp";
 import hero5 from "@/assets/hero5.jpg";
 import hero7 from "@/assets/hero7.jpg";
-import story from "@/assets/p-knight.png";
+import story from "@/assets/p-knight.webp";
 import uniique_muth from '@/assets/uniique_muth.jpg';
 function SectionHead({ eyebrow, title, text }: { eyebrow?: string; title: string; text?: string }) {
   return (
@@ -28,10 +28,21 @@ const heroSlides = [hero, hero2, hero3, hero5,hero7];
 
 export default function Index() {
   const [slide, setSlide] = useState(0);
+  const [loadedSlides, setLoadedSlides] = useState([0]);
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const t = setInterval(() => setSlide((s) => (s + 1) % heroSlides.length), 3000);
     return () => clearInterval(t);
   }, []);
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      const next = (slide + 1) % heroSlides.length;
+      const image = new Image();
+      image.onload = () => setLoadedSlides((current) => current.includes(next) ? current : [...current, next]);
+      image.src = heroSlides[next];
+    }, 1000);
+    return () => window.clearTimeout(t);
+  }, [slide]);
   const { data: products, isLoading, isError } = useProducts();
   const { data: cats = [] } = useCategories();
   const { data: s } = useSettings();
@@ -43,20 +54,22 @@ export default function Index() {
     <Layout>
             {/* Full-bleed Sword Background Hero */}
 
-    <section className="blend-dark-to-light relative flex min-h-[82vh] items-center overflow-hidden bg-background">
+    <section className="blend-dark-to-light relative flex min-h-[82vh] items-center overflow-hidden bg-forest text-forest-foreground">
 
-        {heroSlides.map((src, i) => (
+        {heroSlides.map((src, i) => loadedSlides.includes(i) && (
           <img
             key={src}
             src={src}
             alt={i === slide ? "Handcrafted swords and talwars" : ""}
             aria-hidden={i !== slide}
             loading={i === 0 ? "eager" : "lazy"}
+            fetchPriority={i === 0 ? "high" : "low"}
+            decoding="async"
             className={`absolute inset-0 h-full w-full object-cover object-right transition-opacity duration-1000 ease-in-out md:object-center ${i === slide ? "opacity-100" : "opacity-0"}`}
           />
         ))}
         {/* Dark radial gradient overlay for high text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-forest/95 via-forest/80 to-forest/40" />
 
         <div className="container-wide relative py-20 md:py-28">
           <div className="max-w-2xl">
@@ -70,7 +83,7 @@ export default function Index() {
               <p className="font-serif text-xl font-medium tracking-wide text-accent sm:text-2xl">
                 The Legacy of Sirohi, Forged in Steel. Rooted in Honour.
               </p>
-              <p className="text-base leading-relaxed text-foreground/90 sm:text-lg">
+              <p className="text-base leading-relaxed text-forest-foreground sm:text-lg">
                 Sirohi Talwar – An enduring symbol of Rajasthan&apos;s royal heritage, courage and traditional craftsmanship.
               </p>
             </div>
@@ -80,7 +93,7 @@ export default function Index() {
                 <Link to="/shop">Explore Collection</Link>
               </Button>
 
-              <Button asChild size="lg" variant="outline" className="h-12 border-foreground/30 bg-background/40 backdrop-blur-sm px-8">
+              <Button asChild size="lg" variant="outline" className="h-12 border-forest-foreground/50 bg-forest/60 px-8 text-forest-foreground hover:bg-forest hover:text-forest-foreground">
                 <Link to="/collections">Browse Handicrafts</Link>
               </Button>
             </div>

@@ -22,6 +22,13 @@
       "when": 1793362086286,
       "tag": "0002_fix_inquiry_reference",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793519968407,
+      "tag": "0003_lock_existing_owner",
+      "breakpoints": true
     }
   ]
 }
